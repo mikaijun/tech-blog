@@ -2,7 +2,11 @@ scalar DateTime
 
 type Query {
   users: [User]
-  user(id: ID!): User
+  user(id: Int!): User
+}
+
+type Mutation {
+  saveUser(input: UserSaveInput!): User!
 }
 
 type User {
@@ -10,4 +14,9 @@ type User {
   name: String!
   createdAt: DateTime!
   deletedAt: DateTime
+}
+
+input UserSaveInput {
+  id: Int
+  name: String!
 }
