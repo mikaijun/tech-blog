@@ -9,14 +9,15 @@
 /* eslint-disable */
 
 export interface IQuery {
-    getCats(): Nullable<Nullable<Cat>[]> | Promise<Nullable<Nullable<Cat>[]>>;
-    cat(id: string): Nullable<Cat> | Promise<Nullable<Cat>>;
+    users(): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
 }
 
-export interface Cat {
-    id?: Nullable<number>;
-    name?: Nullable<string>;
-    age?: Nullable<number>;
+export interface User {
+    id: number;
+    name: string;
+    createdAt: DateTime;
+    deletedAt?: Nullable<DateTime>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

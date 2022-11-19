@@ -1,9 +1,0 @@
-type Query {
-  getCats: [Cat]
-  cat(id: ID!): Cat
-}
-type Cat {
-  id: Int
-  name: String
-  age: Int
-}

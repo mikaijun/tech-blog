@@ -1,0 +1,12 @@
+scalar DateTime
+
+type Query {
+  users: [User]
+}
+
+type User {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  deletedAt: DateTime
+}
