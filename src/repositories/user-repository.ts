@@ -4,10 +4,15 @@ import { User } from 'src/models/user.model';
 export class UsersRepository {
   // MEMO: DBから取得する代わり
   private readonly users: User[] = [
-    { id: 1, name: 'ジョン', createdAt: new Date(), deletedAt: null },
-    { id: 2, name: 'マイケル', createdAt: new Date(), deletedAt: null },
+    { id: '1', name: 'ジョン', createdAt: new Date(), deletedAt: null },
+    { id: '2', name: 'マイケル', createdAt: new Date(), deletedAt: null },
   ];
+
   findAll() {
     return this.users;
+  }
+
+  findById(id: string) {
+    return this.users.find((user) => user.id === id);
   }
 }
