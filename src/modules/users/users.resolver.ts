@@ -1,9 +1,14 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
+import { UserSaveInput } from 'src/entities/user.entity';
 import { UsersRepository } from '../../repositories/user-repository';
+import { UserSaveUseCase } from './usecases/users-save-usecase';
 
 @Resolver('Users')
 export class UsersResolver {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly userSaveUseCase: UserSaveUseCase,
+  ) {}
   @Query()
   users() {
     return this.usersRepository.findAll();
@@ -15,7 +20,7 @@ export class UsersResolver {
   }
 
   @Mutation()
-  saveUser(@Args('input') input: any) {
-    return this.usersRepository.save(input);
+  saveUser(@Args('input') input: UserSaveInput) {
+    return this.userSaveUseCase.invoke(input);
   }
 }

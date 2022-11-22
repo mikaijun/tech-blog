@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserSaveInput } from 'src/entities/user.entity';
 
 import { User } from 'src/models/user.model';
 import { UsersRepository } from 'src/repositories/user-repository';
@@ -10,10 +11,10 @@ export class UserSaveUseCase {
   /**
    * ユーザーを保存する
    */
-  invoke(input: any): User {
+  async invoke(input: UserSaveInput) {
     if (input.id) {
-      const user = this.usersRepository.findById(input.id);
-      return this.usersRepository.save(User.update(user, input));
+      const user = await this.usersRepository.findById(input.id);
+      return this.usersRepository.save(user.update(input));
     }
     return this.usersRepository.save(User.create(input));
   }

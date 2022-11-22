@@ -1,10 +1,9 @@
+import { UserEntity } from './entities/user.entity';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './modules/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItemModule } from './item/item.module';
-import { Item } from './item/item.entity';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -16,9 +15,8 @@ import { Item } from './item/item.entity';
       type: 'sqlite',
       database: 'db/sqlitedb.db',
       synchronize: true,
-      entities: [Item],
+      entities: [UserEntity],
     }),
-    ItemModule,
     UsersModule,
   ],
 })

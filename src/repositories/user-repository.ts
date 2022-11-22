@@ -1,45 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/entities/user.entity';
 import { User } from 'src/models/user.model';
+import { Repository } from 'typeorm';
 @Injectable()
 export class UsersRepository {
-  // MEMO: DBから取得する代わり
-  private users: User[] = [
-    { id: 1, name: 'ジョン', createdAt: new Date(), deletedAt: null },
-    { id: 2, name: 'マイケル', createdAt: new Date(), deletedAt: null },
-  ];
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
-  findAll() {
-    return this.users;
+  async findAll(): Promise<UserEntity[]> {
+    return await this.userRepository.find();
   }
 
-  findById(id: number) {
-    return this.users.find((user) => user.id === id);
+  async findById(id: number): Promise<User> {
+    const user = await this.userRepository.findOneBy({ id });
+    return User.fromDataBase(user);
   }
 
-  // MEMO: UPSERTの代わり
-  save(saveUser: User): User {
-    const data = {
-      name: saveUser.name,
-      createdAt: saveUser.createdAt,
-      deletedAt: saveUser.deletedAt,
-    };
+  async save(saveUser: User): Promise<UserEntity> {
     if (saveUser.id) {
-      this.users = this.users.map((user) => {
-        if (user.id === saveUser.id) {
-          return {
-            id: saveUser.id,
-            ...data,
-          };
-        } else return user;
-      });
-      return saveUser;
+      return await this.userRepository.save(User.toDataBase(saveUser));
     } else {
-      const newUser = {
-        id: this.users.length + 1,
-        ...data,
-      };
-      this.users = [...this.users, newUser];
-      return newUser;
+      const newItem = this.userRepository.create(User.toDataBase(saveUser));
+      return await this.userRepository.save(newItem);
     }
   }
 }
