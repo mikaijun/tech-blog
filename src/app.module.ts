@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from './entities/article.entity';
+import { ArticlesModule } from './modules/articles/articles.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -19,6 +20,7 @@ import { ArticleEntity } from './entities/article.entity';
       entities: [UserEntity, ArticleEntity],
     }),
     UsersModule,
+    ArticlesModule,
   ],
 })
 export class AppModule {}
