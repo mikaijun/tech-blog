@@ -50,7 +50,17 @@ export class User {
       name: data.name,
       createdAt: this.createdAt,
       updatedAt: new Date(),
-      deletedAt: data.deletedAt ?? null,
+      deletedAt: null,
+    });
+  }
+
+  public delete(): User {
+    return new User({
+      id: this.id,
+      name: this.name,
+      createdAt: this.createdAt,
+      updatedAt: new Date(),
+      deletedAt: new Date(),
     });
   }
 }

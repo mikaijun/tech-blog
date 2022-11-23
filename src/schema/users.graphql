@@ -7,12 +7,14 @@ type Query {
 
 type Mutation {
   saveUser(input: UserSaveInput!): User!
+  deleteUser(userId: Int!): User!
 }
 
 type User {
   id: Int!
   name: String!
   createdAt: DateTime!
+  updatedAt: DateTime!
   deletedAt: DateTime
 }
 

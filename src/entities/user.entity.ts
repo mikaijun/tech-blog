@@ -3,7 +3,6 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export interface UserSaveInput {
   id: number;
   name: string;
-  deletedAt?: Date;
 }
 @Entity()
 export class UserEntity {
