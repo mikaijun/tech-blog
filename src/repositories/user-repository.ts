@@ -10,8 +10,9 @@ export class UsersRepository {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async findAll(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+  async findAll(): Promise<User[]> {
+    const rows = await this.userRepository.find();
+    return rows.map((row) => User.fromDataBase(row));
   }
 
   async findById(id: number): Promise<User> {
@@ -19,12 +20,15 @@ export class UsersRepository {
     return User.fromDataBase(user);
   }
 
-  async save(saveUser: User): Promise<UserEntity> {
+  async save(saveUser: User): Promise<User> {
+    const data = User.toDataBase(saveUser);
     if (saveUser.id) {
-      return await this.userRepository.save(User.toDataBase(saveUser));
+      const row = await this.userRepository.save(data);
+      return User.fromDataBase(row);
     } else {
-      const newItem = this.userRepository.create(User.toDataBase(saveUser));
-      return await this.userRepository.save(newItem);
+      const createUser = await this.userRepository.create(data);
+      const row = await this.userRepository.save(createUser);
+      return User.fromDataBase(row);
     }
   }
 }
