@@ -22,7 +22,6 @@ export class ArticlesResolver {
 
   @Mutation()
   saveArticle(@Args('input') input: ArticleSaveInput): Promise<Article> {
-    console.log('おテスト');
     return this.articleSaveUseCase.invoke(input);
   }
 }

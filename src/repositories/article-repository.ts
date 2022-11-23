@@ -16,8 +16,13 @@ export class ArticlesRepository {
   }
 
   async findById(id: number): Promise<Article> {
-    const user = await this.articleRepository.findOneBy({ id });
-    return Article.fromDataBase(user);
+    const row = await this.articleRepository.findOneBy({ id });
+    return Article.fromDataBase(row);
+  }
+
+  async findByUserId(id: number): Promise<Article[]> {
+    const rows = await this.articleRepository.findBy({ id });
+    return rows.map((row) => Article.fromDataBase(row));
   }
 
   async save(saveUser: Article): Promise<Article> {
